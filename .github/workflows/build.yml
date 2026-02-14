@@ -77,12 +77,11 @@ jobs:
           pnpm config set virtual-store-dir-max-length 60
           pnpm install
           pnpm run build
-          pnpm exec electron-builder --win nsis --config.directories.output=dist
+          pnpm exec electron-builder --win nsis -p never
 
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
-          name: pear-desktop-installer
+          name: youtube-music-installer
           path: dist/*.exe
-          if-no-files-found: error
