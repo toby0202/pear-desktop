@@ -73,8 +73,11 @@ jobs:
 
       - name: Build on Windows
         if: startsWith(matrix.os, 'windows')
-        # This command forces the creation of an NSIS installer (.exe)
-        run: pnpm electron-builder --win nsis
+        # Step 1: Compile the code into the dist folder
+        # Step 2: Package the compiled code into an installer
+        run: |
+          pnpm build
+          pnpm electron-builder --win nsis
 
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
