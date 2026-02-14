@@ -71,15 +71,13 @@ jobs:
           sudo flatpak install -y flathub org.electronjs.Electron2.BaseApp/x86_64/24.08
           pnpm release:linux
 
-      - name: Build and release on Windows
+      - name: Build on Windows
         if: startsWith(matrix.os, 'windows')
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          pnpm release:win
+        run: pnpm dist:win
+
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
           name: pear-desktop-windows
-          path: dist/*.exe
+          path: dist/
