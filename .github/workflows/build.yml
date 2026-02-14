@@ -73,11 +73,11 @@ jobs:
 
       - name: Build on Windows
         if: startsWith(matrix.os, 'windows')
-        # Step 1: Compile the code into the dist folder
-        # Step 2: Package the compiled code into an installer
         run: |
-          pnpm build
-          pnpm electron-builder --win nsis
+          pnpm config set virtual-store-dir-max-length 60
+          pnpm install --no-frozen-lockfile
+          pnpm run build
+          pnpm exec electron-builder --win nsis -c.directories.output=dist
 
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
