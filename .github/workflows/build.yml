@@ -76,12 +76,15 @@ jobs:
         run: |
           pnpm config set virtual-store-dir-max-length 60
           pnpm install
+          # We run ONLY the build and the package, skipping any 'clean' scripts
           pnpm run build
-          pnpm exec electron-builder --win nsis -p never
+          pnpm exec electron-builder --win nsis -p never --config.directories.output=dist/win-final
 
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
           name: youtube-music-installer
-          path: dist/*.exe
+          # This '**' tells GitHub to look in all subfolders for any .exe
+          path: dist/win-final/**/*.exe
+          if-no-files-found: error
