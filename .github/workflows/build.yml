@@ -75,9 +75,9 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         run: |
           pnpm config set virtual-store-dir-max-length 60
-          pnpm install --no-frozen-lockfile
+          pnpm install
           pnpm run build
-          pnpm exec electron-builder --win nsis -c.directories.output=dist
+          pnpm exec electron-builder --win nsis --config.directories.output=dist
 
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
@@ -85,3 +85,4 @@ jobs:
         with:
           name: pear-desktop-installer
           path: dist/*.exe
+          if-no-files-found: error
