@@ -73,11 +73,12 @@ jobs:
 
       - name: Build on Windows
         if: startsWith(matrix.os, 'windows')
-        run: pnpm dist:win
+        # This command forces the creation of an NSIS installer (.exe)
+        run: pnpm electron-builder --win nsis
 
       - name: Upload Windows Artifact
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
-          name: pear-desktop-windows
-          path: dist/
+          name: pear-desktop-installer
+          path: dist/*.exe
